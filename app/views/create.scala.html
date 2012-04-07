@@ -1,0 +1,12 @@
+@(articleForm: Form[Article])
+
+@import helper._
+
+@main("Welcome to Play 2.0") {
+    
+    @form(routes.Application.newArticle()){
+    	@inputText(articleForm("title"))
+    	@inputText(articleForm("content"))
+    	<input type="submit" value="Create" />
+    }
+}

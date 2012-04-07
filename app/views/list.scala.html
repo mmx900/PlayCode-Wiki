@@ -1,0 +1,18 @@
+@(articles: List[Article])
+
+@import helper._
+
+@main("Welcome to Play 2.0") {
+    
+    <h1>@articles.size() article(s)</h1>
+    
+    <ul>
+    	@for(article <- articles) {
+    		<li>
+    			<a href="/article/@article.title">@article.title</a>
+    		</li>
+    	}
+    </ul>
+    
+    <a href="/article/create">Create new article</a>
+}

@@ -1,0 +1,10 @@
+@(article: Article)
+
+@main("Welcome to Play 2.0") {
+    
+    <h2>@article.title</h2>
+    <div>
+    @article.content
+    </div>
+    <a href="/article/@article.title/delete">ªË¡¶</a>
+}
