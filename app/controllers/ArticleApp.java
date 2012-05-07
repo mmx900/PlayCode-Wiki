@@ -4,7 +4,7 @@ import models.Article;
 import play.*;
 import play.mvc.*;
 
-import views.html.*;
+import views.html.article.*;
 
 import play.data.Form;
 

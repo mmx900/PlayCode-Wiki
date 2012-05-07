@@ -1,11 +1,13 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
-import play.db.ebean.*;
-import play.data.validation.Constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import javax.persistence.*;
+import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
 
 @Entity
 public class Article extends Model {
@@ -19,6 +21,9 @@ public class Article extends Model {
 
 	@Required
 	public String content;
+	
+	//@Required
+	public Date date;
 
 	public static Finder<Long, Article> find = new Finder<Long, Article>(
 			Long.class, Article.class);
