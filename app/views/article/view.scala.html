@@ -2,9 +2,9 @@
 
 @main("Article View") {
     
-    <h2>@article.title</h2>
+    <h2>@article.getTitle()</h2>
     <div>
-    @article.content
+    @article.getContent()
     </div>
-    <a href="/article/@article.title/delete">목록</a>
+    <a href="/article/@article.getTitle()/delete">목록</a>
 }

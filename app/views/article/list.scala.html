@@ -9,7 +9,7 @@
     <ul>
     	@for(article <- articles) {
     		<li>
-    			<a href="/article/@article.title">@article.title</a>
+    			<a href="/article/@article.getTitle()">@article.getTitle()</a>
     		</li>
     	}
     </ul>

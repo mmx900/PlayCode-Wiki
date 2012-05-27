@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.List;
-
 import javax.persistence.Query;
 
 import models.Article;
@@ -17,8 +15,7 @@ import views.html.article.view;
 public class ArticleApp extends Controller {
 	@Transactional(readOnly = true)
 	public static Result listArticle() {
-		return ok(list.render((List<Article>) JPA.em()
-				.createQuery("SELECT a FROM Article a").getResultList()));
+		return ok(list.render(Article.list()));
 	}
 
 	@Transactional(readOnly = true)
