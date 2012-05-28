@@ -8,7 +8,7 @@ import views.html.*;
 
 import play.data.Form;
 
-public class UserApp extends Controller {
+public class Users extends Controller {
 	public static Result createUserForm() {
 		return TODO;
 	}

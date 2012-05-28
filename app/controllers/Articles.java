@@ -12,7 +12,7 @@ import views.html.article.create;
 import views.html.article.list;
 import views.html.article.view;
 
-public class ArticleApp extends Controller {
+public class Articles extends Controller {
 	@Transactional(readOnly = true)
 	public static Result listArticle() {
 		return ok(list.render(Article.list()));
@@ -42,7 +42,7 @@ public class ArticleApp extends Controller {
 			return badRequest(create.render(filledForm));
 		} else {
 			Article.create(filledForm.get());
-			return redirect(routes.ArticleApp.listArticle());
+			return redirect(routes.Articles.listArticle());
 		}
 	}
 
@@ -67,6 +67,6 @@ public class ArticleApp extends Controller {
 	@Transactional
 	public static Result deleteArticle(Long id) {
 		Article.delete(id);
-		return redirect(routes.ArticleApp.listArticle());
+		return redirect(routes.Articles.listArticle());
 	}
 }
