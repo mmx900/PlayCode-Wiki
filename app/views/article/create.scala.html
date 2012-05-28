@@ -4,7 +4,7 @@
 
 @main("Welcome to Play 2.0") {
     
-    @form(routes.Articles.createArticle()){
+    @form(routes.Articles.add()){
     	@inputText(articleForm("title"))
     	@inputText(articleForm("content"))
     	<input type="submit" value="생성" />
