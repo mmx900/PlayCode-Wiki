@@ -1,10 +1,17 @@
 @(article: Article)
 
-@main("Article View") {
+@main("항목 보기") {
     
     <h2>@article.getTitle()</h2>
     <div>
     @article.getContent()
     </div>
-    <a href="/article/@article.getTitle()/delete">목록</a>
+    <a href="/article">목록</a>
+    <a href="/article/@article.getTitle()/update">수정</a>
+    <a href="/article/@article.getTitle()/delete">삭제</a>
+    <a href="/article/@article.getTitle()/history">변경 기록</a>
+    <form method="get" action="">
+    	<input type="text" />
+    	<input type="submit" />
+    </form>
 }

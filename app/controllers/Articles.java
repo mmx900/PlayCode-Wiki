@@ -69,4 +69,9 @@ public class Articles extends Controller {
 		Article.delete(id);
 		return redirect(routes.Articles.index());
 	}
+	
+	@Transactional(readOnly = true)
+	public static Result history() {
+		return TODO;
+	}
 }
