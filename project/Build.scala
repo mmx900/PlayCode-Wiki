@@ -9,8 +9,7 @@ object ApplicationBuild extends Build {
 
 	val appDependencies = Seq(
 		// Add your project dependencies here,
-		"org.hibernate" % "hibernate-entitymanager" % "3.6.10.Final",
-		"org.hsqldb" % "hsqldb" % "2.2.8")
+		"org.hibernate" % "hibernate-entitymanager" % "3.6.10.Final")
 
 	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
 		// Add your own project settings here
