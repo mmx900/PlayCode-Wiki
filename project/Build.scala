@@ -4,15 +4,15 @@ import PlayProject._
 
 object ApplicationBuild extends Build {
 
-	val appName = "ManalithWiki"
+	val appName = "PlayCode-Wiki"
 	val appVersion = "1.0-SNAPSHOT"
 
 	val appDependencies = Seq(
 		// Add your project dependencies here,
-		"org.hibernate" % "hibernate-entitymanager" % "3.6.10.Final")
+		)
 
-	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+	val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
 		// Add your own project settings here
-		ebeanEnabled := false)
+	)
 
 }

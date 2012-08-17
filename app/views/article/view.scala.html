@@ -2,14 +2,14 @@
 
 @main("항목 보기") {
     
-    <h2>@article.getTitle()</h2>
+    <h2>@article.title</h2>
     <div>
-    @article.getContent()
+    @article.content
     </div>
     <a href="/article">목록</a>
-    <a href="/article/@article.getTitle()/update">수정</a>
-    <a href="/article/@article.getTitle()/delete">삭제</a>
-    <a href="/article/@article.getTitle()/history">변경 기록</a>
+    <a href="/article/@article.title/update">수정</a>
+    <a href="/article/@article.title/delete">삭제</a>
+    <a href="/article/@article.title/history">변경 기록</a>
     <form method="get" action="">
     	<input type="text" />
     	<input type="submit" />
