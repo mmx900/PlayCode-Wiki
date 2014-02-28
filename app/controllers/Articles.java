@@ -6,19 +6,30 @@ import models.Article;
 import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.article.create;
-import views.html.article.list;
-import views.html.article.view;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Articles extends Controller {
 	@Transactional(readOnly = true)
-	public static Result index() {
-		return ok(list.render(Article.list()));
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result list() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(Article.list());
+		} catch(Exception e) {
+			// TODO
+		}
+
+		return ok(json);
 	}
 
 	@Transactional(readOnly = true)
+	@BodyParser.Of(BodyParser.Json.class)
 	public static Result show(String title) {
 		Query query = JPA
 				.em()
@@ -26,23 +37,31 @@ public class Articles extends Controller {
 						"SELECT a FROM Article a WHERE a.title = :arg1 ORDER BY a.date DESC");
 		query.setParameter("arg1", title);
 		query.setMaxResults(1);
-		return ok(view.render((Article) query.getSingleResult()));
+		Article article = (Article) query.getSingleResult();
+
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(article);
+		} catch(Exception e) {
+			// TODO
+		}
+
+		return ok(json);
 	}
 
 	static Form<Article> articleForm = Form.form(Article.class);
-
-	public static Result addForm() {
-		return ok(create.render(articleForm));
-	}
 
 	@Transactional
 	public static Result add() {
 		Form<Article> filledForm = articleForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			return badRequest(create.render(filledForm));
+			//return badRequest(create.render(filledForm));
+			return TODO;
 		} else {
 			Article.create(filledForm.get());
-			return redirect(routes.Articles.index());
+			//return redirect(routes.Articles.index());
+			return TODO;
 		}
 	}
 
@@ -67,7 +86,8 @@ public class Articles extends Controller {
 	@Transactional
 	public static Result delete(Long id) {
 		Article.delete(id);
-		return redirect(routes.Articles.index());
+		//return redirect(routes.Articles.index());
+		return TODO;
 	}
 	
 	@Transactional(readOnly = true)

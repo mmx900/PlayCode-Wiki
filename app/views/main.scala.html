@@ -2,36 +2,38 @@
 
 <!DOCTYPE html>
 
-<html lang="ko">
+<html lang="ko" ng-app="playcodeApp">
     <head>
 		<head>
 		<meta charset="utf-8" />
-		<title>@title</title>
-		<link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap.min.css")">
-		<link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-responsive.min.css")">
+		<title ng-bind="title">@title</title>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 		<link rel="stylesheet" media="screen" href="@routes.Assets.at("css/main.css")">
-		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]>
-			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
 		<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("img/favicon.png")">
-		<script src="@routes.Assets.at("js/jquery-1.7.1.min.js")" type="text/javascript"></script>
-		<script src="@routes.Assets.at("js/bootstrap.min.js")" type="text/javascript"></script>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-resource.js"></script>
+		<script src="@routes.Assets.at("js/ui-bootstrap-tpls-0.10.0.js")"></script>
+		<script src="@routes.Assets.at("js/app.js")"></script>
+		<script src="@routes.Assets.at("js/controllers.js")"></script>
     </head>
     <body>
-    	<div class="navbar navbar-fixed-top">
-    		<div class="navbar-inner">
-    			<div class="container-fluid">
-				<a class="brand" href="/">Manalith Wiki</a>
-					<div class="nav-collapse">
-	    				<ul class="nav">
-	    					<li><a href="/article">목록</a></li>
-	    				</ul>
-    				</div>
+    	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    		<div class="container-fluid">
+    			<div class="navbar-header">
+					<a class="navbar-brand" href="/">Manalith Wiki</a>
+    			</div>
+    			<div class="navbar-collapse collapse">
+    				<ul class="nav navbar-nav">
+    					<li><a href="#/article">목록</a></li>
+    				</ul>
     			</div>
     		</div>
     	</div>
     	<div class="container-fluid">
+        	<div ng-view></div>
         	@content
     	</div>
     </body>

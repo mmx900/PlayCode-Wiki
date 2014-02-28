@@ -8,8 +8,7 @@ GET		/login							controllers.Application.loginForm()
 POST	/login							controllers.Application.login()
 
 # Articles
-GET		/article						controllers.Articles.index()
-GET		/article/create				controllers.Articles.addForm()
+GET		/article					controllers.Articles.list()
 POST	/article/create				controllers.Articles.add()
 GET		/article/:title				controllers.Articles.show(title: String)
 GET		/article/:title/update		controllers.Articles.updateForm(title: String)
