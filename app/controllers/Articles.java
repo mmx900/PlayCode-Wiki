@@ -29,7 +29,7 @@ public class Articles extends Controller {
 		return ok(view.render((Article) query.getSingleResult()));
 	}
 
-	static Form<Article> articleForm = form(Article.class);
+	static Form<Article> articleForm = Form.form(Article.class);
 
 	public static Result addForm() {
 		return ok(create.render(articleForm));

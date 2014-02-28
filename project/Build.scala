@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -9,9 +9,12 @@ object ApplicationBuild extends Build {
 
 	val appDependencies = Seq(
 		// Add your project dependencies here,
+		javaCore,
+		javaJdbc,
+		javaJpa,
 		"org.hibernate" % "hibernate-entitymanager" % "3.6.10.Final")
 
-	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+	val main = play.Project(appName, appVersion, appDependencies).settings(
 		// Add your own project settings here
 		ebeanEnabled := false)
 
