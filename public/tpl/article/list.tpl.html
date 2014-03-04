@@ -1,9 +1,9 @@
-<h1>{{articles.length}} article(s)</h1>
+<h1>총 {{articles.length}}개</h1>
 
 <ul>
 	<li ng-repeat="article in articles">
 		<a href="#/article/{{article.title}}">{{article.title}}</a>
 	</li>
 </ul>
-    
-<a href="#/article/create">Create new article</a>
+
+<a href="#/article/create" class="btn btn-default">새 항목 만들기</a>
