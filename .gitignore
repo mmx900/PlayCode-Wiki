@@ -6,3 +6,6 @@ tmp
 .history
 dist
 .classpath
+.idea
+.idea_modules
+.cache
