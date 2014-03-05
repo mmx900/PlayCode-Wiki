@@ -2,12 +2,23 @@
 
 var playcodeControllers = angular.module('playcodeControllers', ['ngSanitize']);
 
-playcodeControllers.controller('ArticleListCtrl', [ '$scope', '$http',
-	function ($scope, $http) {
-		$http.get('/article').
+playcodeControllers.controller('ArticleListCtrl', [ '$scope', '$routeParams', '$http',
+	function ($scope, $routeParams, $http) {
+		var url = '/article';
+		if (typeof $routeParams.keyword !== 'undefined')
+			url += "?keyword=" + $routeParams.keyword;
+
+		$http.get(url).
 			success(function (data, status, headers, config) {
 				$scope.articles = data;
 			});
+	} ]);
+
+playcodeControllers.controller('ArticleQueryCtrl', [ '$scope', '$location',
+	function ($scope, $location) {
+		$scope.search = function () {
+			$location.search('keyword', $scope.keyword)
+		}
 	} ]);
 
 playcodeControllers.controller('ArticleCreateCtrl', [ '$scope', '$location', '$http',

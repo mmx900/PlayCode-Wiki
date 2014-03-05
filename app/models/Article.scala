@@ -5,53 +5,59 @@ import java.sql.{Date => SqlDate}
 import play.api.db.slick.Config.driver.simple._
 
 case class Article(id: Option[Long], title: String, content: String, date: Date) {
-  def this(title: String, content: String) = this(None, title, content, new Date)
+	def this(title: String, content: String) = this(None, title, content, new Date)
 }
 
 class Articles(tag: Tag) extends Table[Article](tag, "ARTICLES") {
 
-  implicit val dateColumnType = MappedColumnType.base[Date, Long](d => d.getTime, d => new Date(d))
+	implicit val dateColumnType = MappedColumnType.base[Date, Long](d => d.getTime, d => new Date(d))
 
-  def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
+	def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
 
-  def title = column[String]("TITLE", O.NotNull)
+	def title = column[String]("TITLE", O.NotNull)
 
-  def content = column[String]("CONTENT", O.NotNull)
+	def content = column[String]("CONTENT", O.NotNull)
 
-  def date = column[Date]("DATE", O.NotNull)
+	def date = column[Date]("DATE", O.NotNull)
 
-  def * = (id.?, title, content, date) <>(Article.tupled, Article.unapply _)
+	def * = (id.?, title, content, date) <>(Article.tupled, Article.unapply _)
 }
 
 object Articles {
-  val articles = TableQuery[Articles]
+	val articles = TableQuery[Articles]
 
-  def list(implicit s: Session) = {
-    articles.list
-  }
+	def list(keyword: Option[String])(implicit s: Session) = {
 
-  def findById(id: Long)(implicit s: Session) = {
-    articles.where(_.id === id).firstOption
-  }
+		keyword match {
+			case Some(keyword) =>
+				articles.where(_.content like s"%$keyword%").list
+			case None =>
+				articles.list
+		}
+	}
 
-  def findByTitle(title: String)(implicit s: Session) = {
-    articles.where(_.title === title).sortBy(c => c.date.desc).firstOption
-  }
+	def findById(id: Long)(implicit s: Session) = {
+		articles.where(_.id === id).firstOption
+	}
 
-  def insert(article: Article)(implicit s: Session) = {
-    articles += article
-  }
+	def findByTitle(title: String)(implicit s: Session) = {
+		articles.where(_.title === title).sortBy(c => c.date.desc).firstOption
+	}
 
-  def update(id: Long, article: Article)(implicit s: Session) = {
-    val articleToUpdate: Article = article.copy(Some(id))
-    articles.where(_.id === id).update(articleToUpdate)
-  }
+	def insert(article: Article)(implicit s: Session) = {
+		articles += article
+	}
 
-  def delete(id: Long)(implicit s: Session) {
-    articles.where(_.id === id).delete
-  }
+	def update(id: Long, article: Article)(implicit s: Session) = {
+		val articleToUpdate: Article = article.copy(Some(id))
+		articles.where(_.id === id).update(articleToUpdate)
+	}
 
-  def delete(title: String)(implicit s: Session) {
-    articles.where(_.title === title).delete
-  }
+	def delete(id: Long)(implicit s: Session) {
+		articles.where(_.id === id).delete
+	}
+
+	def delete(title: String)(implicit s: Session) {
+		articles.where(_.title === title).delete
+	}
 }

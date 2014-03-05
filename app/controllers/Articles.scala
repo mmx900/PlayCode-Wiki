@@ -29,10 +29,10 @@ object Articles extends Controller {
 		}
 	}
 
-	def list = DBAction {
+	def list(keyword:Option[String]) = DBAction {
 		implicit rs =>
 			Ok(Json.toJson(
-				models.Articles.list))
+				models.Articles.list(keyword)))
 	}
 
 	def show(title: String) = DBAction {

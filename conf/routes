@@ -8,11 +8,11 @@ GET		/login							controllers.Application.loginForm()
 POST	/login							controllers.Application.login()
 
 # Articles
-GET		/article					controllers.Articles.list()
+GET		/article					controllers.Articles.list(keyword: Option[String])
 POST	/article/create				controllers.Articles.add()
-GET		/article/:title				controllers.Articles.show(title: String)
+GET		/article/:title				controllers.Articles.show(title)
 POST	/article/:id/update			controllers.Articles.update(id: Long)
-POST	/article/:title/delete		controllers.Articles.delete(title: String)
+POST	/article/:title/delete		controllers.Articles.delete(title)
 
 # Users
 GET		/user							controllers.Users.show()
