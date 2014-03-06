@@ -29,9 +29,9 @@ object Articles {
 	def list(keyword: Option[String])(implicit s: Session) = {
 
 		keyword match {
-			case Some(keyword) =>
+			case Some(keyword) if !keyword.trim.isEmpty =>
 				articles.where(_.content like s"%$keyword%").list
-			case None =>
+			case _ =>
 				articles.list
 		}
 	}
