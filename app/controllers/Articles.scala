@@ -35,7 +35,7 @@ object Articles extends Controller {
 				models.Articles.list(keyword)))
 	}
 
-	def show(title: String) = DBAction {
+	def get(title: String) = DBAction {
 		implicit rs =>
 			Ok(Json.toJson(models.Articles.findByTitle(title)))
 	}
@@ -50,15 +50,15 @@ object Articles extends Controller {
 
 	def add = DBAction {
 		implicit rs =>
-			val data = articleForm.bindFromRequest.get
-			models.Articles.insert(new Article(data._2, data._3))
+			val (_, title, content) = articleForm.bindFromRequest.get
+			models.Articles.insert(new Article(title, content))
 			Ok
 	}
 
 	def update(id: Long) = DBAction {
 		implicit rs =>
-			val data = articleForm.bindFromRequest.get
-			models.Articles.update(id, new Article(data._2, data._3))
+			val (_, title, content) = articleForm.bindFromRequest.get
+			models.Articles.update(id, new Article(title, content))
 			Ok
 	}
 

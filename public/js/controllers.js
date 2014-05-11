@@ -2,6 +2,64 @@
 
 var playcodeControllers = angular.module('playcodeControllers', ['ngSanitize']);
 
+playcodeControllers.controller('SignUpCtrl', ['$scope', '$location', '$http', '$window',
+	function ($scope, $location, $http, $window) {
+		$scope.alerts = [];
+
+		$scope.closeAlert = function (index) {
+			$scope.alerts.splice(index, 1);
+		};
+
+		$scope.submit = function () {
+			$scope.alerts = [];
+
+			if ($scope.password != $scope.password_check) {
+				$scope.alerts.push({msg: '비밀번호가 맞지 않습니다.', type: 'danger'});
+				return;
+			}
+
+			$http.post('/signup', {
+				email: $scope.email,
+				nickname: $scope.nickname,
+				password: $scope.password
+			}).success(function (data, status, headers, config) {
+				$window.location.href = '/#/article';
+			}).error(function (data, status, headers, config) {
+				if (status === 401) {
+					//$scope.alerts.push({msg: '이미 존재하는 아이디입니다.', type: 'danger'});
+				} else {
+					$scope.alerts.push({msg: '오류가 발생했습니다.', type: 'danger'});
+				}
+			});
+		}
+	}]);
+
+playcodeControllers.controller('LoginCtrl', ['$scope', '$location', '$http', '$window',
+	function ($scope, $location, $http, $window) {
+		$scope.alerts = [];
+
+		$scope.closeAlert = function (index) {
+			$scope.alerts.splice(index, 1);
+		};
+
+		$scope.submit = function () {
+			$scope.alerts = [];
+
+			$http.post('/login', {
+				email: $scope.email,
+				password: $scope.password
+			}).success(function (data, status, headers, config) {
+				$window.location.href = '/#/article';
+			}).error(function (data, status, headers, config) {
+				if (status === 401) {
+					$scope.alerts.push({msg: '아이디 혹은 비밀번호가 맞지 않습니다.', type: 'danger'});
+				} else {
+					$scope.alerts.push({msg: '오류가 발생했습니다.', type: 'danger'});
+				}
+			});
+		}
+	}]);
+
 playcodeControllers.controller('ArticleListCtrl', [ '$scope', '$routeParams', '$http',
 	function ($scope, $routeParams, $http) {
 		var url = '/article';
@@ -48,7 +106,7 @@ playcodeControllers.controller('ArticleUpdateCtrl', ['$scope', '$routeParams', '
 				content: $scope.content
 			}).success(function (data, status, headers, config) {
 				$location.path("/article");
-			})
+			});
 		}
 	}]);
 

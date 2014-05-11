@@ -22,7 +22,7 @@
         <script src="@routes.Assets.at("js/app.js")"></script>
         <script src="@routes.Assets.at("js/controllers.js")"></script>
     </head>
-    <body>
+    <body ng-controller="ApplicationCtrl">
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <form class="navbar-form navbar-right" role="search" ng-controller="ArticleQueryCtrl" ng-submit="search()">
                 <div class="form-group">
@@ -36,7 +36,10 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#/article">목록</a></li>
+						<li><a href="#/article">목록</a></li>
+						<li ng-if="!AuthService.isAuthenticated()"><a href="/login">로그인</a></li>
+						<li ng-if="AuthService.isAuthenticated()"><a href="#" ng-click="AuthService.logout()">로그아웃</a></li>
+						<li ng-if="AuthService.isAuthenticated()"><a href="/mymenu">{{Session.nickname}}</a></li>
                     </ul>
                 </div>
             </div>
