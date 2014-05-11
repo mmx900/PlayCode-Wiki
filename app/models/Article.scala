@@ -41,7 +41,7 @@ object Articles {
 	}
 
 	def findByTitle(title: String)(implicit s: Session) = {
-		articles.where(_.title === title).sortBy(c => c.date.desc).firstOption
+		articles.where(_.title === title).sortBy(_.date.desc).firstOption
 	}
 
 	def insert(article: Article)(implicit s: Session) = {

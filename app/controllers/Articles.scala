@@ -29,7 +29,7 @@ object Articles extends Controller {
 		}
 	}
 
-	def list(keyword:Option[String]) = DBAction {
+	def list(keyword: Option[String]) = DBAction {
 		implicit rs =>
 			Ok(Json.toJson(
 				models.Articles.list(keyword)))
@@ -41,27 +41,31 @@ object Articles extends Controller {
 	}
 
 	val articleForm = Form(
-		tuple("id" -> optional(longNumber), "title" -> text, "content" -> text)
+		tuple(
+			"id" -> optional(longNumber),
+			"title" -> nonEmptyText,
+			"content" -> nonEmptyText
+		)
 	)
 
 	def add = DBAction {
 		implicit rs =>
 			val data = articleForm.bindFromRequest.get
 			models.Articles.insert(new Article(data._2, data._3))
-			Ok("")
+			Ok
 	}
 
 	def update(id: Long) = DBAction {
 		implicit rs =>
 			val data = articleForm.bindFromRequest.get
 			models.Articles.update(id, new Article(data._2, data._3))
-			Ok("")
+			Ok
 	}
 
 	def delete(title: String) = DBAction {
 		implicit rs =>
 			models.Articles.delete(title)
-			Ok("")
+			Ok
 	}
 
 	def history = TODO

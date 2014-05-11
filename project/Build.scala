@@ -1,5 +1,4 @@
 import sbt._
-import Keys._
 import play.Project._
 
 object ApplicationBuild extends Build {
@@ -12,7 +11,7 @@ object ApplicationBuild extends Build {
 		jdbc,
 		anorm,
 		cache,
-		"com.typesafe.play" %% "play-slick" % "0.6.0.1" )
+		"com.typesafe.play" %% "play-slick" % "0.6.0.1")
 
 	val main = play.Project(appName, appVersion, appDependencies).settings(
 		// Add your own project settings here

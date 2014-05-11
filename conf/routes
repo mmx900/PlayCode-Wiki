@@ -3,25 +3,25 @@
 # ~~~~
 
 # Home page
-GET		/								controllers.Application.index()
-GET		/login							controllers.Application.loginForm()
-POST	/login							controllers.Application.login()
+GET         /                             controllers.Application.index()
+GET         /login                        controllers.Application.loginForm()
+POST        /login                        controllers.Application.login()
 
 # Articles
-GET		/article					controllers.Articles.list(keyword: Option[String])
-POST	/article/create				controllers.Articles.add()
-GET		/article/:title				controllers.Articles.show(title)
-POST	/article/:id/update			controllers.Articles.update(id: Long)
-POST	/article/:title/delete		controllers.Articles.delete(title)
+GET         /article                      controllers.Articles.list(keyword: Option[String])
+POST        /article/create               controllers.Articles.add()
+GET         /article/:title               controllers.Articles.show(title)
+POST        /article/:id/update           controllers.Articles.update(id: Long)
+POST        /article/:title/delete        controllers.Articles.delete(title)
 
 # Users
-GET		/user							controllers.Users.show()
-GET		/user/create					controllers.Users.createForm()
-POST	/user/create					controllers.Users.create()
-GET		/user/update					controllers.Users.updateForm()
-POST	/user/update					controllers.Users.update()
-GET		/user/delete					controllers.Users.deleteForm()
-POST	/user/delete					controllers.Users.delete()
+GET         /user                         controllers.Users.show()
+GET         /user/create                  controllers.Users.createForm()
+POST        /user/create                  controllers.Users.create()
+GET         /user/update                  controllers.Users.updateForm()
+POST        /user/update                  controllers.Users.update()
+GET         /user/delete                  controllers.Users.deleteForm()
+POST        /user/delete                  controllers.Users.delete()
 
 # Map static resources from the /public folder to the /assets URL path
-GET		/assets/*file					controllers.Assets.at(path="/public", file)
+GET         /assets/*file                 controllers.Assets.at(path="/public", file)
