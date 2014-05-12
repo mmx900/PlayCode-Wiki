@@ -3,26 +3,27 @@
 # ~~~~
 
 # Home page
-GET         /                             controllers.Application.index()
-GET         /signup                       controllers.Application.signUpRequest()
-POST        /signup                       controllers.Application.signUp()
-GET         /login                        controllers.Application.loginRequest()
-POST        /login                        controllers.Application.login()
-GET         /loggedin                     controllers.Application.loggedin()
-GET         /logout                       controllers.Application.logout()
+GET         /                                controllers.Application.index()
+GET         /signup                          controllers.Application.signUpRequest()
+POST        /signup                          controllers.Application.signUp()
+GET         /login                           controllers.Application.loginRequest()
+POST        /login                           controllers.Application.login()
+GET         /loggedin                        controllers.Application.loggedin()
+GET         /logout                          controllers.Application.logout()
 
 # Articles
-GET         /article                      controllers.Articles.list(keyword: Option[String])
-POST        /article/create               controllers.Articles.add()
-GET         /article/:title               controllers.Articles.get(title)
-POST        /article/:id/update           controllers.Articles.update(id: Long)
-POST        /article/:title/delete        controllers.Articles.delete(title)
+GET         /article                         controllers.Articles.list(keyword: Option[String])
+POST        /article/create                  controllers.Articles.add()
+GET         /article/:title                  controllers.Articles.get(title)
+POST        /article/:id/update              controllers.Articles.update(id: Long)
+POST        /article/:title/delete           controllers.Articles.delete(title)
+GET         /article/:title/revisions        controllers.Articles.revisions(title)
 
 # Users
-GET         /user                         controllers.Users.show()
-POST        /user/create                  controllers.Users.create()
-POST        /user/update                  controllers.Users.update()
-POST        /user/delete                  controllers.Users.delete()
+GET         /user                            controllers.Users.show()
+POST        /user/create                     controllers.Users.create()
+POST        /user/update                     controllers.Users.update()
+POST        /user/delete                     controllers.Users.delete()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                 controllers.Assets.at(path="/public", file)
+GET         /assets/*file                    controllers.Assets.at(path="/public", file)

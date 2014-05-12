@@ -7,9 +7,10 @@ import play.api.Play.current
 import play.api.data._
 import play.api.data.Forms._
 import models.Article
+import models.Revision
 import java.util.Date
 
-object Articles extends Controller {
+object Articles extends Controller with Secured {
 
 	implicit object ArticleFormat extends Format[Article] {
 		def reads(json: JsValue) = JsSuccess(Article(
@@ -25,6 +26,31 @@ object Articles extends Controller {
 				"title" -> a.title,
 				"content" -> a.content,
 				"date" -> a.date
+			)
+		}
+	}
+
+	implicit object RevisionFormat extends Format[(Revision, String)] {
+		def reads(json: JsValue) = JsSuccess((Revision(
+			(json \ "id").as[Option[Long]],
+			(json \ "title").as[String],
+			(json \ "content").as[String],
+			(json \ "articleId").as[Long],
+			(json \ "userId").as[Long],
+			(json \ "date").as[Date]), null
+			))
+
+		def writes(t: (Revision, String)): JsValue = {
+			val r = t._1
+
+			Json.obj(
+				"id" -> r.id,
+				"title" -> r.title,
+				"content" -> r.content,
+				"articleId" -> r.articleId,
+				"userId" -> r.userId,
+				"date" -> r.date,
+				"userName" -> t._2
 			)
 		}
 	}
@@ -48,17 +74,17 @@ object Articles extends Controller {
 		)
 	)
 
-	def add = DBAction {
-		implicit rs =>
+	def add = isAuthenticated {
+		user => implicit rs =>
 			val (_, title, content) = articleForm.bindFromRequest.get
-			models.Articles.insert(new Article(title, content))
+			models.Articles.insert(new Article(title, content), user.id.get)
 			Ok
 	}
 
-	def update(id: Long) = DBAction {
-		implicit rs =>
+	def update(id: Long) = isAuthenticated {
+		user => implicit rs =>
 			val (_, title, content) = articleForm.bindFromRequest.get
-			models.Articles.update(id, new Article(title, content))
+			models.Articles.update(id, new Article(title, content), user.id.get)
 			Ok
 	}
 
@@ -68,5 +94,10 @@ object Articles extends Controller {
 			Ok
 	}
 
-	def history = TODO
+	def revisions(title: String) = DBAction {
+		implicit rs =>
+			val articleId = models.Articles.findByTitle(title).get.id.get
+			Ok(Json.toJson(
+				models.Revisions.findByArticleId(articleId)))
+	}
 }

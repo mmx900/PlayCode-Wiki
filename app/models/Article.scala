@@ -44,13 +44,16 @@ object Articles {
 		articles.where(_.title === title).sortBy(_.date.desc).firstOption
 	}
 
-	def insert(article: Article)(implicit s: Session) = {
-		articles += article
+	def insert(article: Article, userId:Long)(implicit s: Session):Long = {
+		val articleId:Long = (articles returning articles.map(_.id)) += article
+		Revisions.insert(new Revision(article, articleId, userId))
+		articleId
 	}
 
-	def update(id: Long, article: Article)(implicit s: Session) = {
+	def update(id: Long, article: Article, userId:Long)(implicit s: Session) = {
 		val articleToUpdate: Article = article.copy(Some(id))
 		articles.where(_.id === id).update(articleToUpdate)
+		Revisions.insert(new Revision(articleToUpdate, userId))
 	}
 
 	def delete(id: Long)(implicit s: Session) {

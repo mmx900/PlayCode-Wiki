@@ -117,6 +117,10 @@ playcodeApp.config([ '$routeProvider', '$httpProvider', function ($routeProvider
 		resolve: {
 			loggedin: checkLoggedin
 		}
+	}).when('/article/:title/revisions', {
+		title: '항목 기록',
+		templateUrl: '/assets/tpl/article/revisions.tpl.html',
+		controller: 'ArticleRevisionsCtrl'
 	}).when('/article/:title', {
 		title: '항목 보기',
 		templateUrl: '/assets/tpl/article/detail.tpl.html',

@@ -1,9 +1,8 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
 
-object Users extends Controller {
+object Users extends Controller with Secured {
 
 	def create = TODO
 

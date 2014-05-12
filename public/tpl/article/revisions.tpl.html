@@ -1,0 +1,19 @@
+<h2>{{title}}</h2>
+<ul class="nav nav-tabs">
+	<li><a href="#/article/{{title}}">상세</a></li>
+	<li class="active"><a href="#">변경 기록</a></li>
+</ul>
+<table class="table">
+	<thead>
+	<th>제목</th>
+	<th>수정일</th>
+	<th>사용자</th>
+	</thead>
+	<tbody>
+	<tr ng-repeat="revision in revisions">
+		<td><a href="#/article/{{revision.title}}/revisions/{{revision.id}}">{{revision.title}}</a></td>
+		<td>{{revision.date | date:'yyyy-MM-dd HH:mm:ss a'}}</td>
+		<td>{{revision.userName}}</td>
+	</tr>
+	</tbody>
+</table>

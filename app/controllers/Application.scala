@@ -6,21 +6,10 @@ import play.api.db.slick._
 import play.api.Play.current
 import play.api.data._
 import play.api.data.Forms._
-import play.api.mvc.Security.AuthenticatedBuilder
 import models._
 import java.util.Date
 
-object Application extends Controller {
-
-	object Authenticated extends AuthenticatedBuilder(req => getUserFromRequest(req))
-
-	def getUserFromRequest(implicit request: RequestHeader) = {
-		session.get("id") match {
-			case Some(x) if !x.trim.isEmpty =>
-				Option(models.User(Some(x.toLong), "", "", session.get("nickname").get, null))
-			case _ => None
-		}
-	}
+object Application extends Controller with Secured {
 
 	implicit object UserFormat extends Format[User] {
 		def reads(json: JsValue) = JsSuccess(User(
@@ -56,8 +45,12 @@ object Application extends Controller {
 	def signUp = DBAction {
 		implicit rs =>
 			val (email, nickname, password) = signUpForm.bindFromRequest.get
-			models.Users.insert(new User(email, password, nickname))
-			Ok
+			val u = new User(email, password, nickname)
+			val userId = models.Users.insert(u)
+			Ok.withSession(
+				("id" -> userId.toString),
+				("nickname" -> u.nickname)
+			)
 	}
 
 	def loginRequest = Action {

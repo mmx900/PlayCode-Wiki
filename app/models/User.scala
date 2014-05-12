@@ -40,7 +40,7 @@ object Users {
 		users.filter(_.email === email).firstOption
 	}
 
-	def insert(user: User)(implicit s: Session) = {
-		users += user
+	def insert(user: User)(implicit s: Session):Long = {
+		(users returning users.map(_.id)) += user
 	}
 }

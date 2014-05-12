@@ -137,3 +137,13 @@ playcodeControllers.controller('ArticleDeleteCtrl', [ '$scope', '$routeParams', 
 				});
 		}
 	} ]);
+
+playcodeControllers.controller('ArticleRevisionsCtrl', [ '$scope', '$routeParams', '$http',
+	function ($scope, $routeParams, $http) {
+		$scope.title = $routeParams.title;
+
+		$http.get('/article/' + $routeParams.title + '/revisions').
+			success(function (data, status, headers, config) {
+				$scope.revisions = data;
+			});
+	} ]);
