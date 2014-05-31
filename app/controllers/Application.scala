@@ -8,8 +8,10 @@ import play.api.data._
 import play.api.data.Forms._
 import models._
 import java.util.Date
+import org.pac4j.play.scala.ScalaController
+import play.Logger
 
-object Application extends Controller with Secured {
+object Application extends ScalaController with Secured {
 
 	implicit object UserFormat extends Format[User] {
 		def reads(json: JsValue) = JsSuccess(User(
@@ -17,7 +19,8 @@ object Application extends Controller with Secured {
 			(json \ "email").as[String],
 			(json \ "password").as[String],
 			(json \ "nickname").as[String],
-			(json \ "registration").as[Date]
+			(json \ "registration").as[Date],
+			(json \ "googleToken").as[Option[String]]
 		))
 
 		def writes(a: User): JsValue = {
@@ -47,14 +50,68 @@ object Application extends Controller with Secured {
 			val (email, nickname, password) = signUpForm.bindFromRequest.get
 			val u = new User(email, password, nickname)
 			val userId = models.Users.insert(u)
+
 			Ok.withSession(
-				("id" -> userId.toString),
-				("nickname" -> u.nickname)
+				"id" -> userId.toString,
+				"nickname" -> u.nickname
 			)
 	}
 
+	def loginFacebook = RequiresAuthentication("FacebookClient", "/loginFacebook") { profile =>
+		DBAction {
+			implicit request =>
+				val name = profile.getDisplayName
+				val email = profile.getEmail
+				val id = profile.getId
+
+				Logger.debug(getUserProfile(request).toString)
+
+				connect(request, name, email, id)
+		}
+	}
+
+	def loginGoogle = RequiresAuthentication("Google2Client", "/loginGoogle") { profile =>
+		DBAction {
+			implicit request =>
+				val name = profile.getDisplayName
+				val email = profile.getEmail
+				val id = profile.getId
+
+				Logger.debug(getUserProfile(request).toString)
+
+				connect(request, name, email, id)
+		}
+	}
+
+	def connect(implicit session:DBSessionRequest[_], name: String, email: String, appUserId: String) = {
+		var dbUser = models.Users.findByEmail(email)
+
+		if (dbUser == None)
+			dbUser = models.Users.findByGoogleToken(appUserId)
+
+		val (userId, user) = dbUser match {
+			case Some(u) => (u.id.get, u)
+			case None => {
+				val u = new User(email, "", name, appUserId)
+				val userId = models.Users.insert(u)
+
+				(userId, u)
+			}
+		}
+
+		Redirect("/").withSession(
+			"id" -> userId.toString,
+			"nickname" -> user.nickname
+		)
+	}
+
 	def loginRequest = Action {
-		Ok(views.html.login())
+		request =>
+			val newSession = getOrCreateSessionId(request)
+			val googleUrl = getRedirectAction(request, newSession, "Google2Client", "/loginGoogle").getLocation
+			val facebookUrl = getRedirectAction(request, newSession, "FacebookClient", "/loginFacebook").getLocation
+
+			Ok(views.html.login(googleUrl, facebookUrl)).withSession(newSession)
 	}
 
 	val loginForm = Form(
@@ -67,8 +124,8 @@ object Application extends Controller with Secured {
 			models.Users.findByEmail(email) match {
 				case Some(u) if u.password == password =>
 					Ok.withSession(
-						("id" -> u.id.get.toString),
-						("nickname" -> u.nickname)
+						"id" -> u.id.get.toString,
+						"nickname" -> u.nickname
 					)
 				case _ =>
 					Unauthorized

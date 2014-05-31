@@ -4,8 +4,10 @@ import java.util.Date
 import java.sql.{Date => SqlDate}
 import play.api.db.slick.Config.driver.simple._
 
-case class User(id: Option[Long], email: String, password: String, nickname: String, registration: Date) {
-	def this(email: String, password: String, nickname: String) = this(None, email, password, nickname, new Date)
+case class User(id: Option[Long], email: String, password: String, nickname: String, registration: Date, googleToken: Option[String]) {
+	def this(email: String, password: String, nickname: String) = this(None, email, password, nickname, new Date, None)
+
+	def this(email: String, password: String, nickname: String, googleToken: String) = this(None, email, password, nickname, new Date, Some(googleToken))
 }
 
 class Users(tag: Tag) extends Table[User](tag, "USERS") {
@@ -16,13 +18,15 @@ class Users(tag: Tag) extends Table[User](tag, "USERS") {
 
 	def email = column[String]("EMAIL", O.NotNull)
 
-	def password = column[String]("PASSWORD", O.NotNull)
+	def password = column[String]("PASSWORD")
 
 	def nickname = column[String]("NICKNAME", O.NotNull)
 
 	def registration = column[Date]("DATE", O.NotNull)
 
-	def * = (id.?, email, password, nickname, registration) <>(User.tupled, User.unapply _)
+	def googleToken = column[String]("GOOGLE_TOKEN")
+
+	def * = (id.?, email, password, nickname, registration, googleToken.?) <>(User.tupled, User.unapply _)
 }
 
 object Users {
@@ -32,15 +36,19 @@ object Users {
 		users.list
 	}
 
-	def findById(id:Long)(implicit s:Session) = {
+	def findById(id: Long)(implicit s: Session) = {
 		users.filter(_.id === id).firstOption
 	}
 
-	def findByEmail(email:String)(implicit s:Session) = {
+	def findByEmail(email: String)(implicit s: Session) = {
 		users.filter(_.email === email).firstOption
 	}
 
-	def insert(user: User)(implicit s: Session):Long = {
+	def findByGoogleToken(token: String)(implicit s: Session) = {
+		users.filter(_.googleToken === token).firstOption
+	}
+
+	def insert(user: User)(implicit s: Session): Long = {
 		(users returning users.map(_.id)) += user
 	}
 }

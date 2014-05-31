@@ -10,6 +10,8 @@ GET         /login                           controllers.Application.loginReques
 POST        /login                           controllers.Application.login()
 GET         /loggedin                        controllers.Application.loggedin()
 GET         /logout                          controllers.Application.logout()
+GET         /loginGoogle                     controllers.Application.loginGoogle()
+GET         /loginFacebook                   controllers.Application.loginFacebook()
 
 # Articles
 GET         /article                         controllers.Articles.list(keyword: Option[String])
@@ -24,6 +26,11 @@ GET         /user                            controllers.Users.show()
 POST        /user/create                     controllers.Users.create()
 POST        /user/update                     controllers.Users.update()
 POST        /user/delete                     controllers.Users.delete()
+
+# Pac4j callback
+GET         /appCallback                     org.pac4j.play.CallbackController.callback()
+POST        /appCallback                     org.pac4j.play.CallbackController.callback()
+GET         /appLogout                       org.pac4j.play.CallbackController.logoutAndRedirect()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)

@@ -7,14 +7,14 @@ object ApplicationBuild extends Build {
 	val appVersion = "1.0-SNAPSHOT"
 
 	val appDependencies = Seq(
-		// Add your project dependencies here,
 		jdbc,
 		anorm,
 		cache,
-		"com.typesafe.play" %% "play-slick" % "0.6.0.1")
+		"com.typesafe.play" %% "play-slick" % "0.6.0.1",
+		"org.pac4j" % "play-pac4j_scala" % "1.2.0",
+		"org.pac4j" % "pac4j-oauth" % "1.5.0")
 
 	val main = play.Project(appName, appVersion, appDependencies).settings(
-		// Add your own project settings here
 		ebeanEnabled := false)
 
 }

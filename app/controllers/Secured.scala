@@ -23,7 +23,7 @@ trait Secured {
 	def getUserFromRequest(implicit request: RequestHeader) = {
 		userId(request) match {
 			case Some(x) if !x.trim.isEmpty =>
-				Option(models.User(Some(x.toLong), "", "", request.session.get("nickname").get, null))
+				Option(models.User(Some(x.toLong), "", "", request.session.get("nickname").get, null, request.session.get("googleToken")))
 			case _ => None
 		}
 	}

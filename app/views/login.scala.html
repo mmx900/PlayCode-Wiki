@@ -1,3 +1,4 @@
+@(googleUrl:String, facebookUrl:String)
 <!DOCTYPE html>
 
 <html lang="ko" ng-app="playcodeApp">
@@ -32,8 +33,10 @@
 				</label>
 				<button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
 				<a class="btn btn-lg btn-default btn-block" href="/signup">가입</a>
+				<a class="btn btn-lg btn-default btn-block" href="@googleUrl">Sign in with Google+</a>
+				<a class="btn btn-lg btn-default btn-block" href="@facebookUrl">Sign in with Facebook</a>
 			</form>
-
 		</div>
+
 	</body>
 </html>
