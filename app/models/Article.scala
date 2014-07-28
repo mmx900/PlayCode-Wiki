@@ -30,18 +30,18 @@ object Articles {
 
 		keyword match {
 			case Some(keyword) if !keyword.trim.isEmpty =>
-				articles.where(_.content like s"%$keyword%").list
+				articles.filter(_.content like s"%$keyword%").list
 			case _ =>
 				articles.list
 		}
 	}
 
 	def findById(id: Long)(implicit s: Session) = {
-		articles.where(_.id === id).firstOption
+		articles.filter(_.id === id).firstOption
 	}
 
 	def findByTitle(title: String)(implicit s: Session) = {
-		articles.where(_.title === title).sortBy(_.date.desc).firstOption
+		articles.filter(_.title === title).sortBy(_.date.desc).firstOption
 	}
 
 	def insert(article: Article, userId:Long)(implicit s: Session):Long = {
@@ -52,15 +52,15 @@ object Articles {
 
 	def update(id: Long, article: Article, userId:Long)(implicit s: Session) = {
 		val articleToUpdate: Article = article.copy(Some(id))
-		articles.where(_.id === id).update(articleToUpdate)
+		articles.filter(_.id === id).update(articleToUpdate)
 		Revisions.insert(new Revision(articleToUpdate, userId))
 	}
 
 	def delete(id: Long)(implicit s: Session) {
-		articles.where(_.id === id).delete
+		articles.filter(_.id === id).delete
 	}
 
 	def delete(title: String)(implicit s: Session) {
-		articles.where(_.title === title).delete
+		articles.filter(_.title === title).delete
 	}
 }

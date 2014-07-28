@@ -44,7 +44,7 @@ object Revisions {
 	}
 
 	def findById(id: Long)(implicit s: Session) = {
-		revisions.where(_.id === id).firstOption.get
+		revisions.filter(_.id === id).firstOption.get
 	}
 
 	def findByArticleId(articleId: Long)(implicit s: Session) = {
@@ -61,6 +61,6 @@ object Revisions {
 	}
 
 	def delete(id: Long)(implicit s: Session) = {
-		revisions.where(_.id === id).delete
+		revisions.filter(_.id === id).delete
 	}
 }
