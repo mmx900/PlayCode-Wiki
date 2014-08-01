@@ -6,29 +6,12 @@ import play.api.db.slick._
 import play.api.Play.current
 import play.api.data._
 import play.api.data.Forms._
-import models.Article
-import models.Revision
+import models.{Article, Revision}
 import java.util.Date
 
 object Articles extends Controller with Secured {
 
-	implicit object ArticleFormat extends Format[Article] {
-		def reads(json: JsValue) = JsSuccess(Article(
-			(json \ "id").as[Option[Long]],
-			(json \ "title").as[String],
-			(json \ "content").as[String],
-			(json \ "date").as[Date]
-		))
-
-		def writes(a: Article): JsValue = {
-			Json.obj(
-				"id" -> a.id,
-				"title" -> a.title,
-				"content" -> a.content,
-				"date" -> a.date
-			)
-		}
-	}
+	implicit val articleFormat = Json.format[Article]
 
 	implicit object RevisionFormat extends Format[(Revision, String)] {
 		def reads(json: JsValue) = JsSuccess((Revision(
@@ -77,14 +60,14 @@ object Articles extends Controller with Secured {
 	def add = isAuthenticated {
 		user => implicit rs =>
 			val (_, title, content) = articleForm.bindFromRequest.get
-			models.Articles.insert(new Article(title, content), user.id.get)
+			models.Articles.insert(Article(title = title, content = content), user.id.get)
 			Ok
 	}
 
 	def update(id: Long) = isAuthenticated {
 		user => implicit rs =>
 			val (_, title, content) = articleForm.bindFromRequest.get
-			models.Articles.update(id, new Article(title, content), user.id.get)
+			models.Articles.update(Article(Some(id), title, content), user.id.get)
 			Ok
 	}
 

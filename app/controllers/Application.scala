@@ -17,7 +17,7 @@ object Application extends ScalaController with Secured {
 		def reads(json: JsValue) = JsSuccess(User(
 			(json \ "id").as[Option[Long]],
 			(json \ "email").as[String],
-			(json \ "password").as[String],
+			(json \ "password").as[Option[String]],
 			(json \ "nickname").as[String],
 			(json \ "registration").as[Date],
 			(json \ "googleToken").as[Option[String]]
@@ -48,7 +48,7 @@ object Application extends ScalaController with Secured {
 	def signUp = DBAction {
 		implicit rs =>
 			val (email, nickname, password) = signUpForm.bindFromRequest.get
-			val u = new User(email, password, nickname)
+			val u = User(email = email, password = Some(password), nickname = nickname)
 			val userId = models.Users.insert(u)
 
 			Ok.withSession(
@@ -91,12 +91,11 @@ object Application extends ScalaController with Secured {
 
 		val (userId, user) = dbUser match {
 			case Some(u) => (u.id.get, u)
-			case None => {
-				val u = new User(email, "", name, appUserId)
+			case None =>
+				val u = User(email = email, nickname = name, googleToken = Some(appUserId))
 				val userId = models.Users.insert(u)
 
 				(userId, u)
-			}
 		}
 
 		Redirect("/").withSession(
@@ -122,7 +121,7 @@ object Application extends ScalaController with Secured {
 		implicit rs =>
 			val (email, password) = loginForm.bindFromRequest.get
 			models.Users.findByEmail(email) match {
-				case Some(u) if u.password == password =>
+				case Some(u) if u.password == Some(password) =>
 					Ok.withSession(
 						"id" -> u.id.get.toString,
 						"nickname" -> u.nickname
