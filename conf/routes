@@ -34,3 +34,6 @@ GET         /appLogout                       org.pac4j.play.CallbackController.l
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+
+# Map the JS resource paths
+GET         /*file                           controllers.Assets.versioned(path="/public", file: Asset)

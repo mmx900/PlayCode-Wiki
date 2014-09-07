@@ -1,0 +1,26 @@
+@(title:String)(content: Html)
+
+<!DOCTYPE html>
+
+<html lang="ko" ng-app="playcodeApp">
+	<head>
+		<meta charset="utf-8" />
+		<title ng-bind="routeTitle">@title</title>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/highlightjs/styles/default.css")">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("css/main.css")">
+		<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("img/favicon.png")">
+		<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-route.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-resource.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-sanitize.js"></script>
+		<script src="@routes.Assets.versioned("lib/angular-ui-bootstrap/ui-bootstrap-tpls.js")"></script>
+		<script src="@routes.Assets.versioned("lib/marked/marked.js")"></script>
+		<script src="@routes.Assets.versioned("lib/highlightjs/highlight.js")"></script>
+		<script src="@routes.Assets.at("js/app.js")"></script>
+		<script src="@routes.Assets.at("js/controllers.js")"></script>
+	</head>
+	@content
+</html>

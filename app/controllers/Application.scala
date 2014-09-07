@@ -34,7 +34,7 @@ object Application extends ScalaController with Secured {
 
 	def index = Action {
 		request =>
-			Ok(views.html.index("Your wiki is ready."))
+			Ok(views.html.index())
 	}
 
 	def signUpRequest = Action {
