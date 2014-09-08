@@ -1,25 +1,36 @@
 <h2 class="page-header">페이지 생성</h2>
+<div class="row">
+	<div class="col-sm-6">
+		<form ng-submit="submit()" role="form">
+			<div class="form-group">
+				<label for="title">제목</label>
+				<input type="text" ng-model="title" id="title" class="form-control" placeholder="제목을 입력하세요."/>
+			</div>
+			<div class="form-group">
+				<label for="content">내용</label>
+				<ui-codemirror ng-model="content" ui-codemirror-opts="editorOptions"></ui-codemirror>
 
-<form ng-submit="submit()" role="form">
-	<div class="form-group">
-		<label for="title">제목</label>
-		<input type="text" ng-model="title" id="title" class="form-control" placeholder="제목을 입력하세요."/>
+				<p class="help-block"><a href="https://help.github.com/articles/github-flavored-markdown" target="_blank">GitHub
+					Flavored Markdown</a>을 지원합니다.</p>
+			</div>
+			<!--
+			<div class="checkbox">
+				<label>
+					<input ng-model="enableToc" id="enableToc" type="checkbox"> 목차(Table of contents) 활성화
+				</label>
+			</div>
+			-->
+			<button type="submit" class="btn btn-default">
+				<span class="glyphicon glyphicon-ok" /> 확인
+			</button>
+		</form>
 	</div>
-	<div class="form-group">
-		<label for="content">내용</label>
-		<textarea ng-model="content" id="content" class="form-control" placeholder="내용을 입력하세요." rows="20"/>
-
-		<p class="help-block"><a href="https://help.github.com/articles/github-flavored-markdown" target="_blank">GitHub
-			Flavored Markdown</a>을 지원합니다.</p>
+	<div class="col-sm-6">
+		<label>미리보기</label>
+		<div class="panel panel-default">
+			<div class="panel-body" ng-bind-html="parsed">
+				내용을 기입하세요.
+			</div>
+		</div>
 	</div>
-	<!--
-	<div class="checkbox">
-		<label>
-			<input ng-model="enableToc" id="enableToc" type="checkbox"> 목차(Table of contents) 활성화
-		</label>
-	</div>
-	-->
-	<button type="submit" class="btn btn-default">
-		<span class="glyphicon glyphicon-ok" /> 확인
-	</button>
-</form>
+</div>

@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-var playcodeApp = angular.module('playcodeApp', [ 'ngRoute', 'ngResource', 'playcodeControllers', 'ui.bootstrap' ]);
+var playcodeApp = angular.module('playcodeApp', [ 'ngRoute', 'ngResource', 'playcodeControllers', 'ui.bootstrap', 'ui.codemirror' ]);
 
 playcodeApp.constant('USER_ROLES', {
 	all: '*',

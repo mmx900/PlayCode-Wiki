@@ -7,13 +7,16 @@ body {
 	padding: 15px;
 	margin: 0 auto;
 }
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
 	margin-bottom: 10px;
 }
+
 .form-signin .checkbox {
 	font-weight: normal;
 }
+
 .form-signin .form-control {
 	position: relative;
 	height: auto;
@@ -23,16 +26,37 @@ body {
 	padding: 10px;
 	font-size: 16px;
 }
+
 .form-signin .form-control:focus {
 	z-index: 2;
 }
+
 .form-signin input[type="email"] {
 	margin-bottom: -1px;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
+
 .form-signin input[type="password"] {
 	margin-bottom: 10px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+}
+
+.CodeMirror {
+	border: 1px solid silver;
+	border-radius: 4px;
+}
+
+.CodeMirror-empty {
+	outline: none;
+}
+
+.CodeMirror-empty.CodeMirror-focused {
+	border-color: #66afe9;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.CodeMirror pre.CodeMirror-placeholder {
+	color: #999;
 }

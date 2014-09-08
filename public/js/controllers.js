@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var playcodeControllers = angular.module('playcodeControllers', ['ngSanitize']);
 
@@ -79,8 +79,32 @@ playcodeControllers.controller('ArticleQueryCtrl', [ '$scope', '$location',
 		}
 	} ]);
 
-playcodeControllers.controller('ArticleCreateCtrl', [ '$scope', '$location', '$http',
-	function ($scope, $location, $http) {
+playcodeControllers.controller('ArticleCreateCtrl', [ '$scope', '$location', '$http', '$timeout',
+	function ($scope, $location, $http, $timeout) {
+		$scope.editorOptions = {
+			lineWrapping: true,
+			lineNumbers: true,
+			mode: 'markdown',
+			placeholder: '내용을 입력하세요.'
+		};
+
+		var startWatch = function () {
+			var timeoutPromise;
+			var delayInMs = 1000;
+			$scope.$watch("content", function () {
+				$timeout.cancel(timeoutPromise);
+				if (typeof($scope.content) !== 'undefined' && $scope.content.trim().length > 0) {
+					timeoutPromise = $timeout(function () {
+						$scope.loading = true;
+						$scope.parsed = marked($scope.content);
+						$scope.loading = false;
+					}, delayInMs);
+				} else {
+					$scope.parsed = '';
+				}
+			});
+		};
+
 		$scope.submit = function () {
 			$http.post('/article/create', {
 				title: $scope.title,
@@ -88,16 +112,44 @@ playcodeControllers.controller('ArticleCreateCtrl', [ '$scope', '$location', '$h
 			}).success(function (data, status, headers, config) {
 				$location.path("/article");
 			});
-		}
+		};
+
+		startWatch();
 	} ]);
 
-playcodeControllers.controller('ArticleUpdateCtrl', ['$scope', '$routeParams', '$location', '$http',
-	function ($scope, $routeParams, $location, $http) {
+playcodeControllers.controller('ArticleUpdateCtrl', ['$scope', '$routeParams', '$location', '$http', '$timeout',
+	function ($scope, $routeParams, $location, $http, $timeout) {
+		$scope.editorOptions = {
+			lineWrapping: true,
+			lineNumbers: true,
+			mode: 'markdown',
+			placeholder: '내용을 입력하세요.'
+		};
+
+		var startWatch = function () {
+			var timeoutPromise;
+			var delayInMs = 1000;
+			$scope.$watch("content", function () {
+				$timeout.cancel(timeoutPromise);
+				if (typeof($scope.content) !== 'undefined' && $scope.content.trim().length > 0) {
+					timeoutPromise = $timeout(function () {
+						$scope.loading = true;
+						$scope.parsed = marked($scope.content);
+						$scope.loading = false;
+					}, delayInMs);
+				} else {
+					$scope.parsed = '';
+				}
+			});
+		};
+
 		$http.get('/article/' + $routeParams.title).
 			success(function (data, status, headers, config) {
 				$scope.articleId = data.id;
 				$scope.title = data.title;
 				$scope.content = data.content;
+				$scope.parsed = marked($scope.content);
+				startWatch();
 			});
 
 		$scope.submit = function () {
