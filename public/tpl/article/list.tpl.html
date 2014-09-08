@@ -1,4 +1,4 @@
-<h1>총 {{articles.length}}개</h1>
+<h2 class="page-header">게시물 목록</h2>
 
 <ul>
 	<li ng-repeat="article in articles">
@@ -6,4 +6,8 @@
 	</li>
 </ul>
 
-<a href="#/article/create" class="btn btn-default">새 항목 만들기</a>
+<div>총 {{articles.length}}개</div>
+
+<a href="#/article/create" class="btn btn-default">
+	<span class="glyphicon glyphicon-plus" /> 새 항목 만들기
+</a>

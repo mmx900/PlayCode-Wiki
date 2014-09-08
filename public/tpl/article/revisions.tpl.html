@@ -1,8 +1,10 @@
-<h2>{{title}}</h2>
-<ul class="nav nav-tabs">
-	<li><a href="#/article/{{title}}">상세</a></li>
-	<li class="active"><a href="#">변경 기록</a></li>
-</ul>
+<ol class="breadcrumb">
+	<li><a href="#">Home</a></li>
+	<li><a href="#">목록</a></li>
+	<li><a href="#">{{title}}</a></li>
+	<li class="active">변경 기록</li>
+</ol>
+<h2 class="page-header">"{{title}}" 변경 기록</h2>
 <table class="table">
 	<thead>
 	<th>제목</th>
@@ -17,3 +19,4 @@
 	</tr>
 	</tbody>
 </table>
+<a href="#/article/{{title}}" class="btn btn-default">상세</a>

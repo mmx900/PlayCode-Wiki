@@ -1,11 +1,17 @@
-<h2>{{article.title}}</h2>
-<ul class="nav nav-tabs">
-	<li class="active"><a href="#">상세</a></li>
-	<li><a href="#/article/{{article.title}}/revisions">변경 기록</a></li>
-</ul>
-<div class="tab-content" ng-bind-html="article.content">
-	{{article.content}}
+<h2 class="page-header">{{article.title}}</h2>
+
+<div ng-bind-html="article.content" />
+<div class="btn-group">
+<a href="#/article/{{article.title}}/revisions" class="btn btn-default">
+	<span class="glyphicon glyphicon-list-alt" /> 변경 기록
+</a>
+<a href="#/article" class="btn btn-default">
+	<span class="glyphicon glyphicon-list" /> 목록
+</a>
+<a href="#/article/{{article.title}}/update" class="btn btn-default">
+	<span class="glyphicon glyphicon-pencil" /> 수정
+</a>
+<a href="#/article/{{article.title}}/delete" class="btn btn-default">
+	<span class="glyphicon glyphicon-trash" /> 삭제
+</a>
 </div>
-<a href="#/article" class="btn btn-default">목록</a>
-<a href="#/article/{{article.title}}/update" class="btn btn-default">수정</a>
-<a href="#/article/{{article.title}}/delete" class="btn btn-default">삭제</a>

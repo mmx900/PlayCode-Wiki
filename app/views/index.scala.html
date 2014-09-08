@@ -15,8 +15,13 @@
 					<ul class="nav navbar-nav">
 						<li><a href="#/article">목록</a></li>
 						<li ng-if="!AuthService.isAuthenticated()"><a href="/login">로그인</a></li>
-						<li ng-if="AuthService.isAuthenticated()"><a href="#" ng-click="AuthService.logout()">로그아웃</a></li>
-						<li ng-if="AuthService.isAuthenticated()"><a href="/mymenu">{{Session.nickname}}</a></li>
+						<li ng-if="AuthService.isAuthenticated()" class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown">{{Session.nickname}} <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#/mypage"><span class="glyphicon glyphicon-user"></span> my page</a></li>
+								<li><a href="#" ng-click="AuthService.logout()"><span class="glyphicon glyphicon-off"></span> 로그아웃</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</div>
