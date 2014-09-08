@@ -111,6 +111,7 @@ playcodeControllers.controller('ArticleUpdateCtrl', ['$scope', '$routeParams', '
 	}]);
 
 marked.setOptions({
+	breaks: true,
 	highlight: function (code) {
 		return hljs.highlightAuto(code).value;
 	}
